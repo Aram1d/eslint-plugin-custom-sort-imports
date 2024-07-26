@@ -1,0 +1,21 @@
+{
+  "name": "eslint-plugin-custom-sort-imports",
+  "version": "1.0.0",
+  "description": "set of eslint rules to make your code cleaner",
+  "main": "./dist/index.js",
+  "author": "Wilfried SUGNIAUX <wilfried.sugniaux@toptal.com>",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "test": "vitest"
+  },
+  "devDependencies": {
+    "@types/eslint": "^9.6.0",
+    "@types/node": "^20.14.12",
+    "@typescript-eslint/parser-v5": "npm:@typescript-eslint/parser@^5.0.0-0",
+    "eslint": "npm:eslint@^9.0.0",
+    "jsdom": "^24.1.1",
+    "typescript": "^5.5.4",
+    "vitest": "^2.0.4"
+  }
+}
