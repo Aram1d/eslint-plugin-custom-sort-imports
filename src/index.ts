@@ -3,7 +3,7 @@ import SortImports from "./rules/sort-imports.js";
 
 const plugin: ESLint.Plugin = {
   meta: {
-    name: "eslint-plugin-ub",
+    name: "eslint-plugin-custom-sort-imports",
     version: "1.0.0."
   },
   rules: { "sort-imports": SortImports }
@@ -11,9 +11,9 @@ const plugin: ESLint.Plugin = {
 
 export const configs = {
   recommended: {
-    plugins: ["ub"],
+    plugins: ["eslint-plugin-custom-sort-imports"],
     rules: {
-      [`eslint-plugin-ub/sort-import`]: ["error"]
+      [`eslint-plugin-custom-sort-imports/sort-import`]: ["error"]
     }
   }
 };

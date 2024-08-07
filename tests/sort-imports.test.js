@@ -22,7 +22,7 @@ function js(chunks, ...args) {
 }
 
 const goodImports = js`
-  import * as a from "react";
+  import React, {ReactNode} from "react";
   import * as b from "react-router-dom";
   import * as c from "react-intl";
   import * as d from "@mantine/core";
@@ -37,18 +37,19 @@ const goodImports = js`
 `;
 
 const wrongImports = js`
-  import * as a from "react";
+  import React, {ReactNode} from "react";
   import * as c from "react-intl";
   import * as d from "@mantine/core";
   import * as b from "react-router-dom";
-  import * as e from "@mantine/hooks";
-  import * as f from "@tabler/icons-react";
   import * as g from "lodash-es";
+  import * as e from "@mantine/hooks";
   import * as h from "@config/routing";
   import * as i from "@components";
   import * as j from "@hooks";
   import * as k from "@utils/functions";
   import * as l from "@utils/styles.module.css";
+  import * as f from "@tabler/icons-react";
+ 
 `;
 
 const patterns = [
@@ -86,18 +87,30 @@ describe("sort-imports", () => {
         options: [{ patterns }],
         errors: [
           {
-            messageId: "wrongMatchAll",
-            data: { source: "react-router-dom", pattern: "^react-.*" }
+            messageId: "wrongImportPosition",
+            data: {
+              source: "react-router-dom",
+              pattern: "^react-.*",
+              before: "react-intl",
+              after: "@mantine/core"
+            }
           },
           {
-            messageId: "wrongMatchAll",
-            data: { source: "@mantine/hooks", pattern: "^@mantine/.*" }
+            messageId: "wrongImportPosition",
+            data: {
+              source: "@mantine/hooks",
+              pattern: "^@mantine\\/.*",
+              before: "@mantine/core",
+              after: "lodash-es"
+            }
           },
           {
-            messageId: "wrongMatchAll",
+            messageId: "wrongImportPosition",
             data: {
               source: "@tabler/icons-react",
-              pattern: "^@tabler/icons-react$"
+              pattern: "^@tabler\\/icons-react$",
+              before: "@mantine/hooks",
+              after: "lodash-es"
             }
           }
         ]

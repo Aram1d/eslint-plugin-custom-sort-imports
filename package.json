@@ -1,7 +1,7 @@
 {
   "name": "eslint-plugin-custom-sort-imports",
   "version": "1.0.0",
-  "description": "set of eslint rules to make your code cleaner",
+  "description": "set of eslint rules to organize your imports",
   "main": "./dist/index.js",
   "author": "Wilfried SUGNIAUX <wilfried.sugniaux@toptal.com>",
   "license": "MIT",
