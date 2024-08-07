@@ -1,12 +1,13 @@
 import { ESLint } from "eslint";
-import SortImports from "./rules/sort-imports.js";
+import sortImports from "./rules/sort-imports.js";
+import pkg from "../package.json";
 
 const plugin: ESLint.Plugin = {
   meta: {
-    name: "eslint-plugin-custom-sort-imports",
-    version: "1.0.0."
+    name: pkg.name,
+    version: pkg.version
   },
-  rules: { "sort-imports": SortImports }
+  rules: { "sort-imports": sortImports }
 };
 
 export const configs = {
@@ -19,7 +20,7 @@ export const configs = {
 };
 
 export const rules = {
-  "sort-imports": SortImports
+  "sort-imports": sortImports
 };
 
 export default plugin;

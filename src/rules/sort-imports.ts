@@ -37,14 +37,12 @@ const rule: Rule.RuleModule = {
 
     const regexPatterns = options.map((pattern: string) => new RegExp(pattern));
     const matchAllIndex = options.indexOf(".*");
-    const withoutMatchAllPatterns = regexPatterns.filter(
-      (_, i) => i !== matchAllIndex
-    );
+    regexPatterns.splice(matchAllIndex, 1);
 
     const importStatementsMap: Map<string, ImportDeclaration> = new Map();
     const importStatements: string[] = [];
 
-    function recursiveReportDiff({ actual, expected }: sortDiffArg) {
+    function recursiveReportDiff({ actual, expected }: SortDiffArg) {
       for (let i = 0; i < expected.length; i++) {
         if (expected[i] !== actual[i]) {
           const updatedActual = [
@@ -59,10 +57,9 @@ const rule: Rule.RuleModule = {
             data: {
               source: expected[i],
               pattern:
-                withoutMatchAllPatterns.find(p => p.test(expected[i]))
-                  ?.source ?? ".*",
-              before: updatedActual[i - 1],
-              after: updatedActual[i + 1]
+                regexPatterns.find(p => p.test(expected[i]))?.source ?? ".*",
+              before: updatedActual[i - 1] ?? "begin of file",
+              after: updatedActual[i + 1] ?? "end of imports"
             }
           });
           recursiveReportDiff({ actual: updatedActual, expected });
@@ -72,10 +69,6 @@ const rule: Rule.RuleModule = {
     }
 
     return {
-      Program() {
-        importStatementsMap.clear();
-        importStatements.length = 0;
-      },
       ImportDeclaration(node) {
         importStatementsMap.set(node.source.value as string, node);
         importStatements.push(node.source.value as string);
@@ -85,7 +78,7 @@ const rule: Rule.RuleModule = {
         const matchAllImports: string[] = [];
 
         importStatements.forEach(importStatement => {
-          const matchIndex = withoutMatchAllPatterns.findIndex(p =>
+          const matchIndex = regexPatterns.findIndex(p =>
             p.test(importStatement)
           );
           matchIndex === -1
@@ -106,6 +99,9 @@ const rule: Rule.RuleModule = {
           actual: importStatements,
           expected: reorganizedImports.flat().filter(Boolean)
         });
+
+        importStatementsMap.clear();
+        importStatements.length = 0;
       }
     };
   }
@@ -113,7 +109,7 @@ const rule: Rule.RuleModule = {
 
 export default rule;
 
-type sortDiffArg = {
+type SortDiffArg = {
   actual: string[];
   expected: string[];
 };

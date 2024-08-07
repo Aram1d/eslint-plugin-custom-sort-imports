@@ -1,10 +1,18 @@
 {
   "name": "eslint-plugin-custom-sort-imports",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "set of eslint rules to organize your imports",
   "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "author": "Wilfried SUGNIAUX <wilfried.sugniaux@toptal.com>",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Aram1d/eslint-plugin-custom-sort-imports"
+  },
+  "issues": {
+    "url": "https://github.com/Aram1d/eslint-plugin-custom-sort-imports/issues"
+  },
   "type": "module",
   "scripts": {
     "test": "vitest"

@@ -1,7 +1,7 @@
 import { describe } from "vitest";
+import parser from "@typescript-eslint/parser-v5";
 import plugin from "../src";
 import rule from "../src/rules/sort-imports";
-import parser from "@typescript-eslint/parser-v5";
 
 import { RuleTester } from "eslint";
 
@@ -52,6 +52,13 @@ const wrongImports = js`
  
 `;
 
+const beginWrongImports = js`
+  import * as e from "@mantine/hooks";
+  import React, {ReactNode} from "react";
+`;
+
+const emptyImports = "";
+
 const patterns = [
   "^react$",
   "^react-.*",
@@ -77,6 +84,11 @@ describe("sort-imports", () => {
       {
         name: "good imports",
         code: goodImports,
+        options: [{ patterns }]
+      },
+      {
+        name: "empty imports",
+        code: emptyImports,
         options: [{ patterns }]
       }
     ],
@@ -111,6 +123,22 @@ describe("sort-imports", () => {
               pattern: "^@tabler\\/icons-react$",
               before: "@mantine/hooks",
               after: "lodash-es"
+            }
+          }
+        ]
+      },
+      {
+        name: "small wrong imports",
+        code: beginWrongImports,
+        options: [{ patterns }],
+        errors: [
+          {
+            messageId: "wrongImportPosition",
+            data: {
+              source: "react",
+              pattern: "^react$",
+              before: "begin of file",
+              after: "@mantine/hooks"
             }
           }
         ]
